@@ -18,20 +18,19 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libffi-dev libssl-dev libspatialindex-dev
+        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libffi-dev libssl-dev libspatialindex-dev ccache
         pip install --upgrade "buildozer<1.5.0" "cython<3.0.0"
 
     - name: Build APK with Buildozer
       run: |
-        yes | buildozer -v android debug
+        APP_ANDROID_ARCHS="arm64-v8a" yes | buildozer -v android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Zain-APK
-        path: bin/*.apk
-        
+        path: bin/
         
