@@ -16,7 +16,6 @@ source.dir = .
 source.include_exts = py,json,png,jpg,kv,atlas
 
 # (list) Application requirements
-# Add dependencies here
 requirements = python3,requests
 
 # (str) Version of the application
@@ -28,15 +27,12 @@ orientation = portrait
 # (list) Permissions
 android.permissions = INTERNET
 
-# (str) Customized icon (optional)
-# icon.filename = %(source.dir)s/data/icon.png
-
-# (str) Customized presplash (optional)
-# presplash.filename = %(source.dir)s/data/presplash.png
+# (bool) Automatically accept Android SDK licenses to fix build-tools error
+android.accept_sdk_license = True
 
 [buildozer]
 
-# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
+# (int) Log level (0 = error only, 1 = info, 2 = debug)
 log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
