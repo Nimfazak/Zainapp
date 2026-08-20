@@ -1,40 +1,43 @@
 [app]
 
 # (str) Title of your application
-title = Zain AI Assistant
+title = Zain
 
 # (str) Package name
-package.name = zainapp
+package.name = zain
 
 # (str) Package domain (needed for android packaging)
-package.domain = org.zain
+package.domain = org.nimfazak
 
-# (list) Source files to include (let it include all python files and assets)
-source.include_exts = py,png,jpg,kv,atlas
+# (str) Source files where the main file resides
+source.dir = .
+
+# (list) Source files to include (let it include python scripts and json memory)
+source.include_exts = py,json,png,jpg,kv,atlas
 
 # (list) Application requirements
-# Add dependencies like requests or urllib3 if needed
-requirements = python3,kivy,requests,urllib3,certifi
+# Add dependencies here
+requirements = python3,requests
 
-# (str) Supported orientations
+# (str) Version of the application
+version = 1.0
+
+# (list) Supported orientations
 orientation = portrait
 
 # (list) Permissions
 android.permissions = INTERNET
 
-# (bool) Automatically accept SDK licenses
-android.accept_sdk_license = True
+# (str) Customized icon (optional)
+# icon.filename = %(source.dir)s/data/icon.png
 
-# (int) Target Android API, should be as high as possible.
-android.api = 33
-
-# (int) Minimum API your APK will support
-android.minapi = 21
-
-# (str) Supported architectures
-android.archs = arm64-v8a
+# (str) Customized presplash (optional)
+# presplash.filename = %(source.dir)s/data/presplash.png
 
 [buildozer]
 
-# (int) Log level (0 = error only, 1 = info, 2 = debug)
+# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
+
+# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
+warn_on_root = 1
