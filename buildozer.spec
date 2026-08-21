@@ -15,11 +15,14 @@ source.dir = .
 # (list) Source files to include
 source.include_exts = py,json,png,jpg,kv,atlas
 
-# (list) Application requirements (pinned to python 3.11 for stable compilation)
-requirements = python3==3.11,requests
+# (list) Application requirements
+requirements = python3,requests
 
 # (str) Version of the application
 version = 1.0
+
+# (str) Indicate the python version to use for the app
+android.python_version = 3.11
 
 # (list) Supported orientations
 orientation = portrait
