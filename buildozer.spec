@@ -24,6 +24,9 @@ version = 1.0
 # (str) Indicate the python version to use for the app
 android.python_version = 3.11
 
+# (list) Target architectures to build for
+android.archs = arm64-v8a
+
 # (list) Supported orientations
 orientation = portrait
 
