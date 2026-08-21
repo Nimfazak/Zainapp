@@ -12,11 +12,11 @@ package.domain = org.nimfazak
 # (str) Source files where the main file resides
 source.dir = .
 
-# (list) Source files to include (let it include python scripts and json memory)
+# (list) Source files to include
 source.include_exts = py,json,png,jpg,kv,atlas
 
-# (list) Application requirements
-requirements = python3,requests
+# (list) Application requirements (pinned to python 3.11 for stable compilation)
+requirements = python3==3.11,requests
 
 # (str) Version of the application
 version = 1.0
@@ -27,8 +27,11 @@ orientation = portrait
 # (list) Permissions
 android.permissions = INTERNET
 
-# (bool) Automatically accept Android SDK licenses to fix build-tools error
+# (bool) Automatically accept Android SDK licenses
 android.accept_sdk_license = True
+
+# Pin a stable NDK version to prevent LLVM/clang compiler errors
+android.ndk = 25b
 
 [buildozer]
 
