@@ -21,7 +21,7 @@ requirements = python3,requests
 # (str) Version of the application
 version = 1.0
 
-# (str) Indicate the python version to use for the app (aligned with runner)
+# (str) Indicate the python version to use for the app
 android.python_version = 3.10
 
 # (list) Target architectures to build for
