@@ -15,8 +15,8 @@ source.dir = .
 # (list) Source files to include
 source.include_exts = py,json,png,jpg,kv,atlas
 
-# (list) Application requirements (including openssl and certifi required for HTTPS requests)
-requirements = python3,requests,openssl,certifi
+# (list) Application requirements
+requirements = python3,requests,charset-normalizer==3.3.2,openssl,certifi
 
 # (str) Version of the application
 version = 1.0
