@@ -1,102 +1,176 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
-from kivy.graphics import Color, Rectangle
+from kivy.graphics import Color, RoundedRectangle
+from kivy.core.window import Window
+
 
 class ZainAIApp(App):
-    def build(self):
-        self.title = "Zain AI Assistant"
+    """Zain â€” a 14-year-old Muslim Nigerian coding/creative assistant."""
 
-        # Main Layout (Black Background)
-        root = BoxLayout(orientation='vertical', padding=15, spacing=10)
-        with root.canvas.before:
-            Color(0, 0, 0, 1)  # Pure Black
-            self.rect = Rectangle(size=(2000, 2000), pos=root.pos)
+    def build(self):
+        self.title = "Zain AI"
+        Window.clearcolor = (0.04, 0.04, 0.05, 1)
+
+        root = BoxLayout(orientation="vertical", padding=12, spacing=8)
 
         # Header
-        header = Label(
-            text="[b]ZAIN AI[/b]", 
-            markup=True, 
-            size_hint_y=None, 
-            height=40,
-            font_size='22sp',
-            color=(1, 1, 1, 1)
+        header = BoxLayout(size_hint_y=None, height=58, spacing=8)
+        title = Label(
+            text="[b]ZAIN AI[/b]\n[size=12]14 â€¢ Muslim â€¢ Kano, Nigeria[/size]",
+            markup=True,
+            font_size="22sp",
+            halign="left",
+            valign="middle",
+            color=(1, 1, 1, 1),
         )
+        title.bind(size=lambda obj, value: setattr(obj, "text_size", value))
+        header.add_widget(title)
         root.add_widget(header)
 
-        # Scrollable Chat
+        # Tool buttons
+        tools = GridLayout(cols=4, size_hint_y=None, height=52, spacing=5)
+        for name in ["Chat", "Code", "2D Art", "3D / Video"]:
+            b = Button(
+                text=name,
+                font_size="13sp",
+                background_normal="",
+                background_color=(0.16, 0.16, 0.19, 1),
+            )
+            b.bind(on_press=self.tool_selected)
+            tools.add_widget(b)
+        root.add_widget(tools)
+
+        # Chat area
         self.scroll = ScrollView(size_hint=(1, 1))
-        self.chat_history = Label(
-            text="[b]Zain:[/b] Assalamu alaikum bro! What are we coding or working on today?\n\n",
-            size_hint_y=None,
+        self.chat = Label(
+            text=(
+                "[b]Zain:[/b] Assalamu alaikum bro! ðŸ‘‹\n\n"
+                "I'm Zain, a 14-year-old Muslim tech kid from Kano, Nigeria.\n"
+                "I can help you learn programming, plan apps, write code, "
+                "and create prompts/ideas for 2D art, 3D scenes and videos.\n\n"
+                "[i]Tell me what you want to build.[/i]\n"
+            ),
             markup=True,
-            halign='left',
-            valign='top',
-            font_size='16sp',
-            color=(1, 1, 1, 1)
+            font_size="16sp",
+            color=(0.95, 0.95, 0.95, 1),
+            halign="left",
+            valign="top",
+            size_hint_y=None,
         )
-        self.chat_history.bind(texture_size=self.chat_history.setter('size'))
-        self.chat_history.bind(width=lambda instance, value: setattr(instance, 'text_size', (value, None)))
-        self.scroll.add_widget(self.chat_history)
+        self.chat.bind(texture_size=self.chat.setter("size"))
+        self.chat.bind(width=lambda obj, value: setattr(obj, "text_size", (value, None)))
+        self.scroll.add_widget(self.chat)
         root.add_widget(self.scroll)
 
-        # Input Area
-        input_box = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=8)
-        
-        self.user_input = TextInput(
-            hint_text="Ask Zain to write code or chat...",
+        # Input
+        bottom = BoxLayout(size_hint_y=None, height=54, spacing=7)
+        self.input = TextInput(
+            hint_text="Ask Zain to code, design, make art, or make a video plan...",
             multiline=False,
-            font_size='15sp',
-            background_color=(0.15, 0.15, 0.15, 1),
+            font_size="15sp",
+            padding=[10, 12],
+            background_color=(0.13, 0.13, 0.15, 1),
             foreground_color=(1, 1, 1, 1),
-            hint_text_color=(0.6, 0.6, 0.6, 1)
+            hint_text_color=(0.55, 0.55, 0.55, 1),
         )
-        self.user_input.bind(on_text_validate=self.send_message)
-        input_box.add_widget(self.user_input)
+        self.input.bind(on_text_validate=self.send_message)
+        bottom.add_widget(self.input)
 
-        send_btn = Button(
-            text="Send",
+        send = Button(
+            text="SEND",
             size_hint_x=None,
-            width=80,
-            background_color=(1, 1, 1, 1),
-            color=(0, 0, 0, 1)
+            width=82,
+            background_normal="",
+            background_color=(0.95, 0.95, 0.95, 1),
+            color=(0.02, 0.02, 0.02, 1),
         )
-        send_btn.bind(on_press=self.send_message)
-        input_box.add_widget(send_btn)
+        send.bind(on_press=self.send_message)
+        bottom.add_widget(send)
+        root.add_widget(bottom)
 
-        root.add_widget(input_box)
         return root
 
+    def tool_selected(self, button):
+        prompts = {
+            "Chat": "Chat with Zain.",
+            "Code": "Write a Python program for me.",
+            "2D Art": "Create a 2D art prompt for a Kano-inspired scene.",
+            "3D / Video": "Create a 3D scene and video prompt for me.",
+        }
+        self.input.text = prompts[button.text]
+        self.input.focus = True
+
     def send_message(self, instance):
-        text = self.user_input.text.strip()
+        text = self.input.text.strip()
         if not text:
             return
 
-        self.chat_history.text += f"[b]You:[/b] {text}\n"
-        self.user_input.text = ""
+        self.chat.text += f"\n[b]You:[/b] {text}\n"
+        self.input.text = ""
 
         response = self.get_zain_response(text)
-        self.chat_history.text += f"[b]Zain:[/b] {response}\n\n"
+        self.chat.text += f"[b]Zain:[/b] {response}\n"
         self.scroll.scroll_y = 0
 
     def get_zain_response(self, text):
-        query = text.lower()
-        
-        # Friendly 14yo Muslim Teen / Coder persona responses
-        if "hello" in query or "hi" in query or "salam" in query:
-            return "Walaikum assalam bro! What's the plan? Need help with some Python code?"
-        elif "who are you" in query:
-            return "I'm Zain! Your 14yo Muslim tech bro. I'm here to vibe, chat, and help you build awesome code."
-        elif "code" in query or "python" in query or "function" in query:
-            return "Say no more! Tell me what function or feature you want to build and I'll write the script for you."
-        elif "pray" in query or "namaz" in query or "islam" in query:
-            return "Always prioritize prayer first, bro! Work can wait a few minutes."
-        else:
-            return f"Got it bro! Let's solve '{text}'. Should we write a script for this?"
+        q = text.lower()
 
-if __name__ == '__main__':
+        if any(x in q for x in ["hello", "hi", "salam", "assalamu"]):
+            return (
+                "Wa alaikum assalam! ðŸ˜Š What are we building today â€” "
+                "Python code, an app, 2D art, a 3D scene, or a video?"
+            )
+
+        if any(x in q for x in ["who are you", "your name"]):
+            return (
+                "I'm Zain â€” a fictional 14-year-old Muslim Nigerian tech character "
+                "from Kano. I love coding, creative technology and learning."
+            )
+
+        if any(x in q for x in ["code", "python", "program", "programming", "app"]):
+            return (
+                "Sure. Tell me the programming language and exactly what the program "
+                "should do. I can then write the code and explain it step by step."
+            )
+
+        if any(x in q for x in ["2d", "image", "picture", "drawing", "art"]):
+            return (
+                "For 2D art, give me your subject, style and setting. Example: "
+                "'A colorful 2D illustration of Kano at sunset with a traditional "
+                "market.' I can turn it into a detailed image-generation prompt."
+            )
+
+        if any(x in q for x in ["3d", "model", "render"]):
+            return (
+                "For 3D work, tell me the object or scene, camera angle, lighting "
+                "and style. I can create a detailed 3D prompt or a Blender/Python "
+                "script for a scene."
+            )
+
+        if any(x in q for x in ["video", "animation", "movie"]):
+            return (
+                "For video, tell me the story or subject, duration and style. "
+                "I can create a storyboard, shot list, dialogue and a video-generation "
+                "prompt. Actual AI video rendering requires a video/AI generation "
+                "engine or API connected to the app."
+            )
+
+        if any(x in q for x in ["islam", "muslim", "prayer", "salah", "namaz"]):
+            return (
+                "Alhamdulillah. Zain is Muslim and respects Islamic values. "
+                "Prayer comes first, and technology can be used for beneficial work."
+            )
+
+        return (
+            f"I understand: '{text}'. Give me a little more detail and I'll help "
+            "you turn the idea into code, a design, a 3D scene, or a video plan."
+        )
+
+
+if __name__ == "__main__":
     ZainAIApp().run()
-     
