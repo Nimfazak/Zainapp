@@ -1,48 +1,46 @@
 [app]
 
-# (str) Title of your application
-title = Zain
-
-# (str) Package name
+# Zain AI
+title = Zain AI
 package.name = zain
-
-# (str) Package domain (needed for android packaging)
 package.domain = org.nimfazak
 
-# (str) Source files where the main file resides
+# Location of main.py
 source.dir = .
 
-# (list) Source files to include
-source.include_exts = py,json,png,jpg,kv,atlas
+# Files to include
+source.include_exts = py,png,jpg,jpeg,kv,atlas,json,txt
 
-# (list) Application requirements
-requirements = python3,requests,charset-normalizer==3.3.2,openssl,certifi
+# Python and Kivy
+requirements = python3,kivy==2.3.1
 
-# (str) Version of the application
+# App version
 version = 1.0
 
-# (str) Indicate the python version to use for the app
+# Android settings
 android.python_version = 3.10
-
-# (list) Target architectures to build for
+android.api = 33
+android.minapi = 23
 android.archs = arm64-v8a
 
-# (list) Supported orientations
+# Screen
 orientation = portrait
+fullscreen = 0
 
-# (list) Permissions
+# Internet access
 android.permissions = INTERNET
 
-# (bool) Automatically accept Android SDK licenses
+# Automatically accept Android SDK license
 android.accept_sdk_license = True
 
-# Pin a stable NDK version to prevent LLVM/clang compiler errors
+# Stable NDK
 android.ndk = 25b
+
 
 [buildozer]
 
-# (int) Log level (0 = error only, 1 = info, 2 = debug)
+# Buildozer logging
 log_level = 2
 
-# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
+# Do not stop because Buildozer is running as root
 warn_on_root = 1
